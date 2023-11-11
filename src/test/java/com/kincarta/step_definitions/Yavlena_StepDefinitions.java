@@ -10,11 +10,15 @@ import io.cucumber.java.en.Then;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import javax.xml.xpath.XPath;
 import java.nio.file.WatchEvent;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -80,7 +84,7 @@ BrowserUtils browserUtils= new BrowserUtils();
     }
     @Then("for each broker on the page, search by the broker's name")
     public void for_each_broker_on_the_page_search_by_the_broker_s_name() throws InterruptedException {
-        Thread.sleep(2000);
+
 
 
 
@@ -89,9 +93,19 @@ BrowserUtils browserUtils= new BrowserUtils();
             System.out.println(i);
             WebElement currentBroker= allBrokers.get(i);
             String brokerName=currentBroker.findElement(By.className("name")).getText();
+
          //   System.out.println(currentBroker.findElement(By.xpath("//h3[@class='name']/a[@title='" + brokerName + "']")).getText());
 
             System.out.println(brokerName);
+
+
+            yavlenaBrokerPage.searchBox2.clear();
+            yavlenaBrokerPage.searchBox2.sendKeys(brokerName);
+
+            currentBroker = Driver.getDriver().findElement(By.xpath("//article[@class='broker-card'][" + (i + 1) + "]"));
+
+           // WebDriverWait wait=new WebDriverWait(Driver.getDriver(), Duration.ofSeconds(4));
+           // wait.until(ExpectedConditions.textToBePresentInElementValue(yavlenaBrokerPage.searchBox2,brokerName));
 
 
 
