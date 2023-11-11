@@ -14,8 +14,10 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import javax.swing.*;
 import javax.xml.xpath.XPath;
 import java.nio.file.WatchEvent;
 import java.time.Duration;
@@ -81,31 +83,81 @@ BrowserUtils browserUtils= new BrowserUtils();
         Thread.sleep(2000);
         Driver.getDriver().findElement(By.xpath("//div[@class='load-more-brokers']/a")).click();
 
+
     }
     @Then("for each broker on the page, search by the broker's name")
     public void for_each_broker_on_the_page_search_by_the_broker_s_name() throws InterruptedException {
 
+/*if (yavlenaBrokerPage.LoadMoreButton.isDisplayed()){
+
+    System.out.println("nothing to do");
+}else {
+    yavlenaBrokerPage.LoadMoreButton.click();
+}
+
+ */
+WebDriver driver=Driver.getDriver();
+
+        List<WebElement> allBrokers = Driver.getDriver().findElements(By.xpath("//article[@class='broker-card']"));
+        for (int i = 0; i < allBrokers.size(); i++) {
+            System.out.println(i);
+            WebElement currentBroker = allBrokers.get(i);
+            String brokerName = currentBroker.findElement(By.className("name")).getText();
+
+            System.out.println(brokerName);
+
+            WebDriverWait wait = new WebDriverWait(Driver.getDriver(), Duration.ofSeconds(10));
+
+            // Assuming searchBox2 is the correct id, adjust if needed
+            yavlenaBrokerPage.searchBox2.clear();
+            yavlenaBrokerPage.searchBox2.sendKeys(brokerName);
+
+            WebElement Loadingpage= Driver.getDriver().findElement(By.xpath("//div[@class='pace']"));
+
+            // Additional verification or actions as needed
 
 
 
-        List<WebElement> allBrokers= Driver.getDriver().findElements(By.xpath("//article[@class='broker-card']"));
+
+            System.out.println("---------------------");
+
+
+
+      /*  List<WebElement> allBrokers= driver.findElements(By.xpath("//article[@class='broker-card']"));
         for (int i = 0; i < allBrokers.size(); i++) {
             System.out.println(i);
             WebElement currentBroker= allBrokers.get(i);
             String brokerName=currentBroker.findElement(By.className("name")).getText();
 
-         //   System.out.println(currentBroker.findElement(By.xpath("//h3[@class='name']/a[@title='" + brokerName + "']")).getText());
-
-            System.out.println(brokerName);
 
 
             yavlenaBrokerPage.searchBox2.clear();
             yavlenaBrokerPage.searchBox2.sendKeys(brokerName);
+            WebDriverWait w = new WebDriverWait(driver,Duration.ofSeconds(3));
+            // presenceOfElementLocated condition
+            w.until(ExpectedConditions.presenceOfElementLocated (By.className("tel-group")));
 
-            currentBroker = Driver.getDriver().findElement(By.xpath("//article[@class='broker-card'][" + (i + 1) + "]"));
+            System.out.println("priting numbers");
+
+
+
+
+
+
+
+
+
+
+
+
+            //  currentBroker = Driver.getDriver().findElement(By.xpath("//article[@class='broker-card'][" + (i + 1) + "]"));
+          //  brokerName=currentBroker.findElement(By.className("name")).getText();
+
+
+//BrowserUtils.waitForInvisibilityOf(currentBroker);
 
            // WebDriverWait wait=new WebDriverWait(Driver.getDriver(), Duration.ofSeconds(4));
-           // wait.until(ExpectedConditions.textToBePresentInElementValue(yavlenaBrokerPage.searchBox2,brokerName));
+           // wait.until(EvtextToBePresentInElementValue(yavlenaBrokerPage.searchBox2,brokerName));
 
 
 
@@ -225,6 +277,7 @@ Thread.sleep(4000);
     }
     @Then("verify that the searched broker is the only one displayed")
     public void verify_that_the_searched_broker_is_the_only_one_displayed() {
+
 
     }
     /*
