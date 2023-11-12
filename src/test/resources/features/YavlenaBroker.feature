@@ -1,21 +1,26 @@
-Feature: Yavlena broker dashboard
-  User Story: As a User I want to be able to display more Brokers and their information
+@Regression
+Feature: Searching the Agents name and verifying Informations
+
+  Background:
+    Given user is on the dashboard of Yavlena brokers
+@smoke @TC1
+    Scenario Outline:
+      When user clicks on the search box
+      And user write the agents "<fullName>" in the search box
+      Then verify the information is displayed from the Agents
+
+      |address  |mobile phone  | landline phone | number of properties   |
+      |<address>|<mobile phone>| <landline phone>| <number of properties>|
+
+      Examples:
+     |fullName             |address                            |mobile phone     |landline phone     |number of properties |
+     |Desisilava Petrova   |Blagoevgrad, Office Blagoevgrad    |+359 73 88 20 05 |+359 886 880 290   |(12 Properties)      |
+     |Gergana Ivancheva    |Blagoevgrad, Office Blagoevgrad    |+359 73 88 20 04 |+359 886 880 290   |(0 Properties)       |
+     |Radoslav Andonov     |Blagoevgrad, Office Blagoevgrad    |+359 73 882 004  |+359 886 880 290   |(60 Properties)      |
+     |Magdalena Stoyanova  |Burgas, Office Burgas              |+359 56 878 008  |+359 885 777 73    |(23 Properties)      |
 
 
-  Scenario: Title verification
-    Given user is on the Yavlena dashboard
-    Given user clicks on ENG flag to translate the page
-    Then user should see title is as expected
-
-   #expectedTitle: Our team | Yavlena
-
-
-  Scenario: Loading more Brokers
-    Given user is on the Yavlena dashboard
-    Given user click on Load more button
-   # Then verify there are more brokers
-
-  Scenario: Looping thru all brokers
-    Then for each broker on the page, search by the broker's name
-    #And verify that the searched broker is the only one displayed
-   # And verify the address, landline phone, mobile phone, and number of properties for the broker
+@smoke @TC2
+      Scenario: Selecting "Load more" button to reveal all agents
+        When user click to Load more button
+        Then  verify that the number of agents are increased
